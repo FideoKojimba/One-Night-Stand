@@ -1,29 +1,31 @@
 using UnityEngine;
 
+
 public class ObjetoSeleccionable : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-   private void OnMouseEnter()
+    public Sprite image;
+
+   public void OnMouseEnter()
     {
         AumentarEscala(true);
     }
 
-   private void OnMouseExit()
+   public void OnMouseExit()
     {
         AumentarEscala(false);
     }
 
 
-    private Vector3 escalaInicial;
+    public Vector2 escalaInicial;
 
-    private void Awake()
+    public void Awake()
     {
         escalaInicial= transform.localScale;
     }
 
     private void AumentarEscala(bool status = true)
     {
-        Vector3 escalaFinal = escalaInicial;
+        Vector2 escalaFinal = escalaInicial;
 
         if(status ==true)
         escalaFinal = escalaInicial * 1.1f;

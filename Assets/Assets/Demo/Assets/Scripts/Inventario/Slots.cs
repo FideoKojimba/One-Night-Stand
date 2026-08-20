@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class NewMonoBehaviourScript : MonoBehaviour, IDropHandler
+public class Slots : MonoBehaviour, IDropHandler
 {
     public void OnDrop (PointerEventData eventData)
     {

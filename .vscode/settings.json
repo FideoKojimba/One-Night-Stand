@@ -67,5 +67,5 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "One-Night-Stand.slnx"
+    "dotnet.defaultSolution": "One-Night Stand.slnx"
 }

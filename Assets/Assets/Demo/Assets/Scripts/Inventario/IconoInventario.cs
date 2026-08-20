@@ -16,7 +16,7 @@ public class IconoInventario :MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     public void OnBeginDrag(PointerEventData eventData)
 
     {
-       image.raycastTarget = false;
+      image.raycastTarget = false;
        parentAfterDrag = transform.parent;
        transform.SetParent(transform.root);
     }

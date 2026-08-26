@@ -11,7 +11,8 @@ using TMPro;
 /// (separación de responsabilidades: el ícono solo sabe moverse,
 /// el slot decide si acepta o intercambia).
 /// </summary>
-public class InventoryItemIcon : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class InventoryItemIcon : ObjetoSeleccionable, IBeginDragHandler, IDragHandler, IEndDragHandler,
+    IPointerEnterHandler, IPointerExitHandler
 {
     public Image imagen;
     public TextMeshProUGUI texto; // TextMeshPro en vez de Text (UI) clásico
@@ -23,8 +24,10 @@ public class InventoryItemIcon : MonoBehaviour, IBeginDragHandler, IDragHandler,
 
     public InventorySlot SlotAsignado => slotAsignado;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake(); // guarda la escala original para la animación de hover
+
         // CanvasGroup se usa para "apagar" el raycast del ícono mientras
         // se arrastra, así el mouse puede detectar el slot que está debajo.
         canvasGroup = GetComponent<CanvasGroup>();
@@ -34,6 +37,16 @@ public class InventoryItemIcon : MonoBehaviour, IBeginDragHandler, IDragHandler,
         }
 
         canvasRaiz = GetComponentInParent<Canvas>();
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        IniciarHover();
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        TerminarHover();
     }
 
     public void Inicializar(Item itemData, InventorySlot slot)
@@ -69,6 +82,8 @@ public class InventoryItemIcon : MonoBehaviour, IBeginDragHandler, IDragHandler,
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        TerminarHover(); // que no quede agrandado mientras se arrastra
+
         // Deja de bloquear raycasts para que el drop detecte el slot de abajo
         canvasGroup.blocksRaycasts = false;
 

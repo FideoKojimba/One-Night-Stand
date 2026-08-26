@@ -496,8 +496,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25df8e792c7caf447beb2cd61113ea8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldItem
+  multiplicadorEscala: 1.1
+  duracionAnimacion: 0.1
   item:
-    nombre: Negra
+    nombre: Llave
     icono: {fileID: 547005881017364832, guid: 37b246d0becc5ef4ca5a936d28b2e1e3, type: 3}
     prefab: {fileID: 6002501389649934321, guid: 0ac1cdc3a5b415d42a6753427198f377, type: 3}
 --- !u!212 &475405270
@@ -776,6 +778,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25df8e792c7caf447beb2cd61113ea8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldItem
+  multiplicadorEscala: 1.1
+  duracionAnimacion: 0.1
   item:
     nombre: MeiMei
     icono: {fileID: 8957324059118975939, guid: a6b20202a9f43c94887c4ebf182a387b, type: 3}

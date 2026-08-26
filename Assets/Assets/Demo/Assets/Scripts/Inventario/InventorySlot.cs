@@ -43,7 +43,12 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
         if (EstaVacio)
         {
-            // Slot libre: el ícono simplemente se muda aquí
+            // Slot libre: el ícono se muda aquí. Es esencial liberar el
+            // slot de origen explícitamente; si no, ese slot seguiría
+            // "pensando" que todavía tiene a este ícono (referencia
+            // desactualizada), y un futuro drop ahí dispararía un
+            // intercambio con un ícono que ya no está en ese lugar.
+            slotOrigen.Liberar();
             iconoArrastrado.MoverA(this);
         }
         else

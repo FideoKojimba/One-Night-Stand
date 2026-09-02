@@ -134,16 +134,33 @@ public class InventoryItemIcon : ObjetoSeleccionable, IBeginDragHandler, IDragHa
     /// </summary>
     private bool TryUsarSobreObjetoDelMundo(PointerEventData eventData)
     {
-        if (Camera.main == null) return false;
+        if (Camera.main == null)
+        {
+            Debug.Log("[DEBUG] No se encontró una cámara con el tag 'MainCamera'.");
+            return false;
+        }
 
         Vector2 puntoMundo = Camera.main.ScreenToWorldPoint(eventData.position);
         Collider2D colisionador = Physics2D.OverlapPoint(puntoMundo);
-        if (colisionador == null) return false;
+
+        if (colisionador == null)
+        {
+            Debug.Log("[DEBUG] No se encontró ningún Collider2D en el punto donde se soltó el ítem.");
+            return false;
+        }
+
+        Debug.Log("[DEBUG] Se soltó sobre: " + colisionador.gameObject.name);
 
         IObjetoInteractivo objetoInteractivo = colisionador.GetComponent<IObjetoInteractivo>();
-        if (objetoInteractivo == null) return false;
+        if (objetoInteractivo == null)
+        {
+            Debug.Log("[DEBUG] " + colisionador.gameObject.name + " no tiene ningún componente IObjetoInteractivo.");
+            return false;
+        }
 
         bool fueAceptado = objetoInteractivo.UsarItem(item);
+        Debug.Log("[DEBUG] UsarItem devolvió: " + fueAceptado);
+
         if (fueAceptado)
         {
             InventoryManager.singleton.ConsumirItem(item, slotAsignado);

@@ -221,9 +221,9 @@ GameObject:
   m_Component:
   - component: {fileID: 270642918}
   - component: {fileID: 270642917}
+  - component: {fileID: 270642919}
   - component: {fileID: 270642916}
   - component: {fileID: 270642915}
-  - component: {fileID: 270642919}
   m_Layer: 0
   m_Name: Flecha cambio de escena
   m_TagString: Untagged
@@ -340,7 +340,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 895473965
   m_SortingLayer: 2
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -662144527202527472, guid: bb84be8c5fdd0684cbe5d8ba090f424f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -362,7 +362,7 @@ Transform:
   m_GameObject: {fileID: 270642914}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.01, y: -3.89, z: 0}
+  m_LocalPosition: {x: -0.01, y: -3.89, z: -1}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children: []

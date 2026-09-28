@@ -48,8 +48,9 @@ public class Numpad : MonoBehaviour
     private void Update()
     {
         // Mientras se está verificando el código (esperando a que termine
-        // de sonar el beep antes del resultado), se ignora el teclado.
-        if (procesandoResultado)
+        // de sonar el beep antes del resultado), o mientras hay un diálogo
+        // en pantalla, se ignora el teclado.
+        if (procesandoResultado || GestorDialogo.EnDialogo)
         {
             return;
         }

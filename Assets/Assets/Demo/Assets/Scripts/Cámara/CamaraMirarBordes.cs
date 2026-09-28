@@ -29,6 +29,8 @@ public class CamaraMirarBordes : MonoBehaviour
 
     private void Update()
     {
+        if (GestorDialogo.EnDialogo) return;
+
         Vector3 direccion = CalcularDireccion();
 
         if (direccion != Vector3.zero)

@@ -101,6 +101,26 @@ public class InventoryManager : MonoBehaviour
         slot.Liberar();
     }
 
+    /// <summary>
+    /// Vacía el inventario por completo: destruye los íconos que hay en
+    /// pantalla, libera los slots y olvida qué ítems se recogieron alguna
+    /// vez (así los WorldItem vuelven a aparecer al reiniciar el juego).
+    /// </summary>
+    public void Reiniciar()
+    {
+        foreach (InventorySlot slot in slots)
+        {
+            if (!slot.EstaVacio)
+            {
+                Destroy(slot.IconoActual.gameObject);
+                slot.Liberar();
+            }
+        }
+
+        inventario.Clear();
+        nombresRecogidos.Clear();
+    }
+
     private void InstanciarIcono(Item item, InventorySlot slot)
     {
         GameObject nuevoIcono = Instantiate(iconoItemPrefab, slot.transform);

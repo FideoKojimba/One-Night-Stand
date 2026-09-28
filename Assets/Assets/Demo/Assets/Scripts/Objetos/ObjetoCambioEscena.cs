@@ -24,6 +24,8 @@ public class ObjetoCambioEscena : ObjetoSeleccionable
 
     private void OnMouseDown()
     {
+        if (GestorDialogo.EnDialogo) return;
+
         GestorTransicionEscena.singleton.IrAEscena(nombreEscena, transform.position, usarEfectoCaminado);
     }
 

@@ -37,6 +37,8 @@ public class PuertaConCodigo : ObjetoSeleccionable
 
     private void OnMouseDown()
     {
+        if (GestorDialogo.EnDialogo) return;
+
         if (GestorEstadoJuego.singleton.YaOcurrio(idPuzzle))
         {
             GestorTransicionEscena.singleton.IrAEscena(escenaDestinoFinal, transform.position, usarEfectoCaminado);

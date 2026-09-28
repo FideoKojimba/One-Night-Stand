@@ -32,5 +32,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Assets/Demo/Assets/Escenas/RoomBed.unity
     guid: 81f9d199ffd045944bbe1d53efe82f07
+  - enabled: 1
+    path: Assets/Assets/Demo/Assets/Escenas/FinDemo.unity
+    guid: 247b4bc3a9cb9114c807d4a433c708f2
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

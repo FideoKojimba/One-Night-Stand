@@ -30,12 +30,16 @@ public abstract class ObjetoSeleccionable : MonoBehaviour
     /// <summary>Llamar cuando el mouse empieza a pasar por encima.</summary>
     protected void IniciarHover()
     {
+        if (GestorDialogo.EnDialogo) return;
+
         AnimarHacia(escalaOriginal * multiplicadorEscala);
     }
 
     /// <summary>Llamar cuando el mouse deja de estar encima.</summary>
     protected void TerminarHover()
     {
+        if (GestorDialogo.EnDialogo) return;
+
         AnimarHacia(escalaOriginal);
     }
 

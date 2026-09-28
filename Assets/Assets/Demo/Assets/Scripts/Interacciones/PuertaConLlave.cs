@@ -63,6 +63,8 @@ public class PuertaConLlave : MonoBehaviour, IObjetoInteractivo
 
     private void OnMouseDown()
     {
+        if (GestorDialogo.EnDialogo) return;
+
         if (sonidoTrabada != null)
         {
             audioSource.PlayOneShot(sonidoTrabada);

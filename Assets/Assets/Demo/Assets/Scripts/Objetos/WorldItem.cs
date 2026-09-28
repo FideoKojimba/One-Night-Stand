@@ -29,6 +29,8 @@ public class WorldItem : ObjetoSeleccionable
 
     private void OnMouseDown()
     {
+        if (GestorDialogo.EnDialogo) return;
+
         bool agregado = InventoryManager.singleton.AgregarItem(item);
 
         if (agregado)

@@ -39,6 +39,12 @@ public class GestorEstadoJuego : MonoBehaviour
         eventosOcurridos.Add(idEvento);
     }
 
+    /// <summary>Borra todo el registro: el juego vuelve a como estaba al empezar.</summary>
+    public void Reiniciar()
+    {
+        eventosOcurridos.Clear();
+    }
+
     /// <summary>Consulta si este evento ya ocurrió alguna vez antes.</summary>
     public bool YaOcurrio(string idEvento)
     {

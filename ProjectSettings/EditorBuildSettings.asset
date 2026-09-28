@@ -11,5 +11,26 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Assets/Demo/Assets/Escenas/Azotea.unity
     guid: bb376f0386425e04a8c3e3dc13f6ecf1
+  - enabled: 1
+    path: Assets/Assets/Demo/Assets/Escenas/Armario.unity
+    guid: 0224b965b7dab044c90c3ca747e5ebc2
+  - enabled: 1
+    path: Assets/Assets/Demo/Assets/Escenas/Pasillo del hospital.unity
+    guid: 6d0e1889f2c98f046b52e30d738e2c6a
+  - enabled: 1
+    path: Assets/Assets/Demo/Assets/Escenas/Pantalla del Computador.unity
+    guid: abf5d9f595ef7804f8217d9462ccec22
+  - enabled: 1
+    path: Assets/Assets/Demo/Assets/Escenas/SalaAlQuirofano.unity
+    guid: 78ee812e5621e684caf408e0a72d3658
+  - enabled: 1
+    path: "Assets/Assets/Demo/Assets/Escenas/NumpadQuir\xF3fano.unity"
+    guid: 556b02757445082429866fe6ecaad100
+  - enabled: 1
+    path: "Assets/Assets/Demo/Assets/Escenas/Quir\xF3fano.unity"
+    guid: 14db996f18487264b8878dd0620d5056
+  - enabled: 1
+    path: Assets/Assets/Demo/Assets/Escenas/RoomBed.unity
+    guid: 81f9d199ffd045944bbe1d53efe82f07
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

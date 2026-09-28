@@ -6,6 +6,11 @@ using UnityEngine;
 /// Es la clase "cerebro": decide EN QUÉ slot va cada ítem y
 /// mantiene la lista real de lo que el jugador posee.
 /// Las demás clases (Slot, Icon) solo ejecutan lo que este manager pide.
+///
+/// Persiste entre escenas (DontDestroyOnLoad), igual que
+/// GestorTransicionEscena: si no persistiera, al cambiar de escena se
+/// destruiría junto con todo lo que el jugador tenía en el inventario
+/// (como la llave, antes de poder usarla).
 /// </summary>
 public class InventoryManager : MonoBehaviour
 {
@@ -20,11 +25,17 @@ public class InventoryManager : MonoBehaviour
     // Lista interna real de ítems (fuente de verdad del inventario)
     private List<Item> inventario = new List<Item>();
 
+    // Nombres de ítems que el jugador ya recogió ALGUNA VEZ, sin importar
+    // si siguen en el inventario o ya se consumieron. Sirve para que los
+    // WorldItem no vuelvan a aparecer al recargar una escena ya visitada.
+    private HashSet<string> nombresRecogidos = new HashSet<string>();
+
     private void Awake()
     {
         if (singleton == null)
         {
             singleton = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -44,12 +55,23 @@ public class InventoryManager : MonoBehaviour
             {
                 InstanciarIcono(item, slot);
                 inventario.Add(item);
+                nombresRecogidos.Add(item.nombre);
                 return true;
             }
         }
 
         Debug.Log("Inventario lleno: no hay slots disponibles");
         return false;
+    }
+
+    /// <summary>
+    /// Indica si un ítem con este nombre ya fue recogido alguna vez,
+    /// sin importar si sigue en el inventario o ya se usó/consumió.
+    /// Cada WorldItem se consulta a sí mismo con esto al aparecer.
+    /// </summary>
+    public bool YaFueRecogido(string nombreItem)
+    {
+        return nombresRecogidos.Contains(nombreItem);
     }
 
     /// <summary>

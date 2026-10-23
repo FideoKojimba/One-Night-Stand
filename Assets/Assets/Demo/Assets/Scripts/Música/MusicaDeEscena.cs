@@ -1,21 +1,35 @@
 using UnityEngine;
 
 /// <summary>
-/// Colocá esto en cualquier escena/sala que deba sonar con una música
-/// distinta a la general. Al entrar a esa escena, le pide al
-/// GestorMusica que cambie de pista; si resulta ser la misma que ya
-/// estaba sonando, GestorMusica simplemente la deja como está.
+/// Se coloca en un objeto de CADA escena y le dice al GestorMusica qué
+/// hacer con la música al entrar. Solo configura; no reproduce nada por
+/// sí misma.
 ///
-/// No hace falta usarlo en todas las escenas: si una sala no tiene
-/// este componente, sigue sonando lo que ya estuviera sonando antes.
+/// Tres casos posibles:
+///  1) cambiarMusica = false -> la escena no toca la música: sigue la
+///     que venía sonando (o silencio si no había).
+///  2) cambiarMusica = true, continuarDondeQuedo = true -> suena la
+///     pista de esta escena retomando donde se quedó la última vez
+///     (ej.: minuto 2:30). Si es la primera vez, empieza de cero.
+///  3) cambiarMusica = true, continuarDondeQuedo = false -> suena la
+///     pista de esta escena siempre desde el principio.
 /// </summary>
 public class MusicaDeEscena : MonoBehaviour
 {
-    [Tooltip("Música que debería sonar mientras el jugador está en esta escena")]
+    [Tooltip("¿Esta escena cambia la música? Si está apagado, se mantiene la que ya suena.")]
+    public bool cambiarMusica = true;
+
+    [Tooltip("Pista que suena en esta escena (solo se usa si 'Cambiar Musica' está activado).")]
     public AudioClip musicaDeEstaSala;
+
+    [Tooltip("Activado: retoma la pista donde se quedó (ej. minuto 2:30). " +
+             "Desactivado: empieza desde el principio cada vez.")]
+    public bool continuarDondeQuedo = true;
 
     private void Start()
     {
-        GestorMusica.singleton.ReproducirMusica(musicaDeEstaSala);
+        if (!cambiarMusica) return;
+
+        GestorMusica.singleton.ReproducirMusica(musicaDeEstaSala, continuarDondeQuedo);
     }
 }

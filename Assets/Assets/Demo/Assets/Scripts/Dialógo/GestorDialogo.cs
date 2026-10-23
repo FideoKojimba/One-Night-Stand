@@ -15,10 +15,10 @@ using UnityEngine.UI;
 /// las demás coroutines) ni modificar cada script por separado más
 /// allá de una sola línea de chequeo.
 ///
-/// Opcionalmente, muestra la escena de fondo difuminada mientras se
-/// habla: captura la pantalla, la reduce varias veces a la mitad y la
-/// estira de nuevo a pantalla completa (una imagen chica estirada se
-/// ve borrosa, sin necesidad de shaders).
+/// Cómo se avanza: no hay botón. Un clic en CUALQUIER parte de la
+/// pantalla avanza el diálogo. Si la línea todavía se está tipeando,
+/// el clic la completa de una; si ya estaba completa, pasa a la
+/// siguiente. El último clic cierra el diálogo.
 /// </summary>
 public class GestorDialogo : MonoBehaviour
 {
@@ -28,33 +28,34 @@ public class GestorDialogo : MonoBehaviour
     /// True mientras un diálogo está en pantalla. Cualquier otro
     /// script puede consultarla antes de reaccionar a un clic.
     /// </summary>
-    public static bool EnDialogo { get; private set; }
+    public static bool EnDialogo;
+
+    // Las variables static NO se reinician solas si el editor tiene
+    // desactivado "Reload Domain". Si detienes el Play en medio de un
+    // diálogo, EnDialogo quedaría en true y bloquearía todo el juego
+    // en la siguiente prueba. Este método lo reinicia al darle Play.
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ReiniciarEstadoEstatico()
+    {
+        EnDialogo = false;
+    }
 
     [Header("Referencias de UI")]
     public GameObject panelDialogo;
     public Image imagenPersonaje;
+    [Tooltip("Texto donde se muestra QUIÉN habla (arriba de la caja)")]
+    public TextMeshProUGUI textoNombre;
     public TextMeshProUGUI textoDialogo;
 
-    [Header("Fondo difuminado (opcional)")]
-    [Tooltip("RawImage a pantalla completa, como PRIMER hijo de PanelDialogo (detrás del " +
-             "resto). Si se deja vacío, no hay fondo difuminado.")]
-    public RawImage fondoDifuminado;
-
-    [Tooltip("Cuántas veces se reduce a la mitad la captura antes de estirarla. " +
-             "Más pases = más difuminado (3 es un buen punto de partida).")]
-    [Range(1, 6)]
-    public int intensidadDifuminado = 3;
-
-    [Tooltip("Segundos de espera antes de mostrar el diálogo, para que termine el " +
-             "fundido inicial de la escena antes de capturar el fondo.")]
+    [Header("Tiempos")]
+    [Tooltip("Segundos de espera antes de mostrar el diálogo, para que termine " +
+             "el fundido inicial de la escena")]
     public float retrasoAntesDeMostrar = 0.4f;
 
-    [Header("Velocidad")]
     [Tooltip("Segundos de espera entre cada letra que aparece")]
     public float velocidadTipeo = 0.03f;
 
     private bool avanzar;
-    private RenderTexture texturaDifuminada;
 
     private void Awake()
     {
@@ -62,10 +63,25 @@ public class GestorDialogo : MonoBehaviour
         {
             singleton = this;
             DontDestroyOnLoad(gameObject);
+
+            // El panel siempre arranca oculto, aunque se haya dejado
+            // activo en el prefab por accidente (si no, taparía la
+            // pantalla y bloquearía los clics).
+            panelDialogo.SetActive(false);
         }
         else
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void Update()
+    {
+        // Solo cuenta cuando el panel ya está visible: así un clic
+        // durante la breve espera inicial no se "guarda" por error.
+        if (EnDialogo && panelDialogo.activeSelf && Input.GetMouseButtonDown(0))
+        {
+            avanzar = true;
         }
     }
 
@@ -79,28 +95,13 @@ public class GestorDialogo : MonoBehaviour
         StartCoroutine(SecuenciaDeDialogo(personaje, lineas));
     }
 
-    /// <summary>
-    /// Conectado al botón de "saltar" desde el Inspector. Si la línea
-    /// todavía se está tipeando, la completa de una. Si ya estaba
-    /// completa, avanza a la siguiente.
-    /// </summary>
-    public void AlPresionarBotonSaltar()
-    {
-        avanzar = true;
-    }
-
     private IEnumerator SecuenciaDeDialogo(Sprite personaje, LineaDialogo[] lineas)
     {
         // El juego ya queda pausado desde este instante, aunque el
-        // panel todavía no se vea (mientras espera y captura el fondo).
+        // panel todavía no se vea (durante la espera inicial).
         EnDialogo = true;
 
         yield return new WaitForSeconds(retrasoAntesDeMostrar);
-
-        if (fondoDifuminado != null)
-        {
-            yield return StartCoroutine(CapturarFondoDifuminado());
-        }
 
         panelDialogo.SetActive(true);
 
@@ -111,6 +112,8 @@ public class GestorDialogo : MonoBehaviour
 
         foreach (LineaDialogo linea in lineas)
         {
+            textoNombre.text = linea.nombre;
+
             yield return StartCoroutine(TipearTexto(linea.texto));
 
             // Espera un clic NUEVO del jugador antes de pasar a la
@@ -121,7 +124,6 @@ public class GestorDialogo : MonoBehaviour
         }
 
         panelDialogo.SetActive(false);
-        LiberarFondoDifuminado();
         EnDialogo = false;
     }
 
@@ -134,7 +136,7 @@ public class GestorDialogo : MonoBehaviour
         {
             if (avanzar)
             {
-                break; // el jugador saltó: se completa la línea de una, abajo
+                break; // el jugador hizo clic: se completa la línea de una, abajo
             }
 
             textoDialogo.text += letra;
@@ -142,65 +144,5 @@ public class GestorDialogo : MonoBehaviour
         }
 
         textoDialogo.text = texto; // asegura que quede completa, se haya saltado o no
-    }
-
-    /// <summary>
-    /// Captura lo que se ve en pantalla y lo achica a la mitad varias
-    /// veces seguidas (cada paso promedia los píxeles vecinos). Al
-    /// mostrar esa imagen chica estirada a pantalla completa, el
-    /// resultado se ve difuminado.
-    /// </summary>
-    private IEnumerator CapturarFondoDifuminado()
-    {
-        // La captura tiene que hacerse al final del frame, cuando la
-        // pantalla ya terminó de dibujarse.
-        yield return new WaitForEndOfFrame();
-
-        Texture2D captura = ScreenCapture.CaptureScreenshotAsTexture();
-
-        Texture origen = captura;
-        RenderTexture anterior = null;
-        int ancho = captura.width;
-        int alto = captura.height;
-
-        for (int i = 0; i < intensidadDifuminado; i++)
-        {
-            ancho = Mathf.Max(1, ancho / 2);
-            alto = Mathf.Max(1, alto / 2);
-
-            RenderTexture reducida = new RenderTexture(ancho, alto, 0);
-            reducida.filterMode = FilterMode.Bilinear;
-            Graphics.Blit(origen, reducida);
-
-            if (anterior != null)
-            {
-                anterior.Release();
-                Destroy(anterior);
-            }
-
-            anterior = reducida;
-            origen = reducida;
-        }
-
-        Destroy(captura);
-
-        LiberarFondoDifuminado();
-        texturaDifuminada = anterior;
-        fondoDifuminado.texture = texturaDifuminada;
-    }
-
-    private void LiberarFondoDifuminado()
-    {
-        if (fondoDifuminado != null)
-        {
-            fondoDifuminado.texture = null;
-        }
-
-        if (texturaDifuminada != null)
-        {
-            texturaDifuminada.Release();
-            Destroy(texturaDifuminada);
-            texturaDifuminada = null;
-        }
     }
 }

@@ -546,7 +546,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DialogoTrigger
   personaje: {fileID: 0}
   lineas:
-  - texto: "\"Si tuviera un teclado lo usar\xEDa en este momento\""
+  - nombre: Blair
+    texto: "\"Si tuviera un teclado lo usar\xEDa en este momento\""
   alIniciarLaEscena: 1
   soloUnaVez: 1
   idDialogo: TalVezNecesiteUnTeclado

@@ -8,6 +8,10 @@ using UnityEngine;
 [System.Serializable]
 public class LineaDialogo
 {
+    [Tooltip("Quién habla en esta línea (se muestra arriba de la caja). " +
+             "Dejalo vacío si no querés mostrar nombre.")]
+    public string nombre;
+
     [TextArea(2, 5)]
     public string texto;
 }

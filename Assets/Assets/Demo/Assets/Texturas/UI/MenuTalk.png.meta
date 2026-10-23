@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 213327000534e834a9fe2e1a8829f61e
+guid: fac04d6b37e0ab54294bf54ed493ddc0
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6598984736965274656
-    second: Recepcion_0
+      213: 2678917915628629280
+    second: MenuTalk_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,17 +96,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Recepcion_0
+      name: MenuTalk_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 512
-        height: 288
+        width: 350
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 02c2a05c7ad449b50800000000000000
-      internalID: 6598984736965274656
+      spriteID: 02d697796ad6d2520800000000000000
+      internalID: 2678917915628629280
       vertices: []
       indices: 
       edges: []
@@ -135,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Recepcion_0: 6598984736965274656
+      MenuTalk_0: 2678917915628629280
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

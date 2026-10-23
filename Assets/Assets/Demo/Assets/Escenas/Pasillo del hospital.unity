@@ -185,7 +185,7 @@ SpriteRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 6598984736965274656, guid: 213327000534e834a9fe2e1a8829f61e, type: 3}
+  m_Sprite: {fileID: 3635896052096531977, guid: 32f2f69000dc7cc4288c274ca2ade89b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -504,6 +504,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+--- !u!1 &858696445
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 858696447}
+  - component: {fileID: 858696446}
+  m_Layer: 0
+  m_Name: Hospital Ambience
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &858696446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 858696445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a40650018cbd12146a48e41d78d0c2e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MusicaDeEscena
+  cambiarMusica: 1
+  musicaDeEstaSala: {fileID: 8300000, guid: e4cc87438b637534d8446bd5224f1e66, type: 3}
+  continuarDondeQuedo: 0
+--- !u!4 &858696447
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 858696445}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.66043, y: -0.26662, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1731532400
 GameObject:
   m_ObjectHideFlags: 0
@@ -653,13 +700,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1731532400}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.48896188, w: 0.8723052}
-  m_LocalPosition: {x: 7.69, y: -2.57, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalRotation: {x: -0, y: -0, z: 0.8651068, w: 0.5015876}
+  m_LocalPosition: {x: -6.1666, y: -3.3994, z: 0}
+  m_LocalScale: {x: 0.24051, y: 0.24051, z: 0.24051}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 58.545}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 119.79}
 --- !u!1 &1912308199
 GameObject:
   m_ObjectHideFlags: 0
@@ -744,12 +791,12 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -3143472993209834078, guid: ff805953ec1267a458096b34cf220905, type: 3}
+  m_Sprite: {fileID: -6764560381244970214, guid: a47ffea369e9ba04a9cf232357c1ba96, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2.94, y: 3.09}
+  m_Size: {x: 0.65, y: 0.68}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -763,13 +810,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1912308199}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.07708548, w: 0.9970245}
-  m_LocalPosition: {x: -1.9, y: -0.28, z: 0}
-  m_LocalScale: {x: 0.46594533, y: 0.47174475, z: 0.5858}
-  m_ConstrainProportionsScale: 0
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.49, y: -0.13, z: 0}
+  m_LocalScale: {x: 2.94, y: 2.94, z: 2.94}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 8.842}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1912308204
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -804,17 +851,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.0058974177, y: -0.016916633}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.94, y: 3.09}
-    newSize: {x: 2.94, y: 3.09}
+    oldSize: {x: 0.65, y: 0.68}
+    newSize: {x: 0.65, y: 0.68}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 2.94, y: 3.09}
+  m_Size: {x: 0.7474059, y: 0.78025234}
   m_EdgeRadius: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
@@ -825,3 +872,4 @@ SceneRoots:
   - {fileID: 651798695}
   - {fileID: 1731532404}
   - {fileID: 1912308202}
+  - {fileID: 858696447}

@@ -41,6 +41,11 @@ public class GestorTransicionEscena : MonoBehaviour
     [Tooltip("Cuántas veces oscila de un lado a otro durante el caminado (más alto = pasos más rápidos)")]
     public float frecuenciaBalanceo = 2f;
 
+    [Header("Sonido del caminado (opcional)")]
+    [Tooltip("Objeto con el script SonidoPasos. Suena SOLO cuando se ejecuta el efecto " +
+             "de caminado, no en las transiciones que solo hacen fundido.")]
+    public SonidoPasos sonidoPasos;
+
     [Header("Fundido a negro")]
     [Tooltip("Cuánto dura el fundido a negro, y el fundido de regreso, en segundos")]
     public float duracionFundido = 0.25f;
@@ -83,21 +88,37 @@ public class GestorTransicionEscena : MonoBehaviour
     /// casos, el acercamiento de cámara revelaría un borde que no
     /// debería verse. El fundido a negro siempre se hace igual.
     /// </param>
-    public void IrAEscena(string nombreEscena, Vector3 puntoDestino, bool usarEfectoCaminado = true)
+    /// <param name="duracionFundidoSalida">
+    /// (Opcional) Cuánto dura el fundido a negro de SALIDA. Si no se indica,
+    /// se usa "duracionFundido". Sirve para que el fundido dure justo lo
+    /// que dura un sonido (ver TransicionConSonido).
+    /// </param>
+    public void IrAEscena(string nombreEscena, Vector3 puntoDestino, bool usarEfectoCaminado = true, float duracionFundidoSalida = -1f)
     {
-        StartCoroutine(SecuenciaDeTransicion(nombreEscena, puntoDestino, usarEfectoCaminado));
+        StartCoroutine(SecuenciaDeTransicion(nombreEscena, puntoDestino, usarEfectoCaminado, duracionFundidoSalida));
     }
 
-    private IEnumerator SecuenciaDeTransicion(string nombreEscena, Vector3 puntoDestino, bool usarEfectoCaminado)
+    private IEnumerator SecuenciaDeTransicion(string nombreEscena, Vector3 puntoDestino, bool usarEfectoCaminado, float duracionFundidoSalida)
     {
+        // Mientras la escena se está yendo, nada puede recibir clics (si no, con un
+        // fundido largo el jugador podría disparar otra transición encima).
+        bool bloqueamos = !GestorDialogo.EnDialogo;
+        if (bloqueamos) GestorDialogo.EnDialogo = true;
+
         if (usarEfectoCaminado)
         {
             yield return StartCoroutine(EfectoCaminado(puntoDestino));
         }
 
-        yield return StartCoroutine(Fundido(0f, 1f));
+        float duracionSalida = duracionFundidoSalida > 0f ? duracionFundidoSalida : duracionFundido;
+        yield return StartCoroutine(Fundido(0f, 1f, duracionSalida));
         SceneManager.LoadScene(nombreEscena);
-        yield return StartCoroutine(Fundido(1f, 0f));
+
+        // Se desbloquea ANTES de que la escena nueva ejecute su Start, para no
+        // pisar un diálogo que esa escena arranque sola al empezar.
+        if (bloqueamos) GestorDialogo.EnDialogo = false;
+
+        yield return StartCoroutine(Fundido(1f, 0f, duracionFundido));
     }
 
     private IEnumerator EfectoCaminado(Vector3 puntoDestino)
@@ -111,6 +132,12 @@ public class GestorTransicionEscena : MonoBehaviour
 
         float sizeInicial = camaraComponente.orthographicSize;
         float sizeFinal = sizeInicial * factorZoom;
+
+        // Los pasos suenan solo mientras dura el caminado
+        if (sonidoPasos != null)
+        {
+            sonidoPasos.Reproducir();
+        }
 
         float tiempoTranscurrido = 0f;
         while (tiempoTranscurrido < duracionCaminado)
@@ -138,15 +165,17 @@ public class GestorTransicionEscena : MonoBehaviour
         camara.rotation = Quaternion.identity;
     }
 
-    private IEnumerator Fundido(float alphaInicial, float alphaFinal)
+    private IEnumerator Fundido(float alphaInicial, float alphaFinal, float duracion = -1f)
     {
+        if (duracion <= 0f) duracion = duracionFundido;
+
         Color color = panelNegro.color;
         float tiempoTranscurrido = 0f;
 
-        while (tiempoTranscurrido < duracionFundido)
+        while (tiempoTranscurrido < duracion)
         {
             tiempoTranscurrido += Time.deltaTime;
-            float progreso = tiempoTranscurrido / duracionFundido;
+            float progreso = tiempoTranscurrido / duracion;
             color.a = Mathf.Lerp(alphaInicial, alphaFinal, progreso);
             panelNegro.color = color;
             yield return null;

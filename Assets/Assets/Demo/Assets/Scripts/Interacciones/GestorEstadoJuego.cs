@@ -20,6 +20,11 @@ public class GestorEstadoJuego : MonoBehaviour
 
     private HashSet<string> eventosOcurridos = new HashSet<string>();
 
+    // Además de "ya pasó / no pasó", algunas cosas necesitan recordar un
+    // DATO (por ejemplo, qué gadget quedó en cada ranura de un puzzle).
+    // Se guarda como pares clave -> valor, ambos de texto.
+    private Dictionary<string, string> valores = new Dictionary<string, string>();
+
     private void Awake()
     {
         if (singleton == null)
@@ -39,10 +44,26 @@ public class GestorEstadoJuego : MonoBehaviour
         eventosOcurridos.Add(idEvento);
     }
 
+    /// <summary>Guarda un dato de texto bajo una clave (reemplaza el anterior).</summary>
+    public void GuardarValor(string clave, string valor)
+    {
+        valores[clave] = valor;
+    }
+
+    /// <summary>
+    /// Devuelve el dato guardado bajo esa clave, o null si nunca se guardó
+    /// nada (útil para distinguir "vacío a propósito" de "nunca se tocó").
+    /// </summary>
+    public string ObtenerValor(string clave)
+    {
+        return valores.TryGetValue(clave, out string valor) ? valor : null;
+    }
+
     /// <summary>Borra todo el registro: el juego vuelve a como estaba al empezar.</summary>
     public void Reiniciar()
     {
         eventosOcurridos.Clear();
+        valores.Clear();
     }
 
     /// <summary>Consulta si este evento ya ocurrió alguna vez antes.</summary>

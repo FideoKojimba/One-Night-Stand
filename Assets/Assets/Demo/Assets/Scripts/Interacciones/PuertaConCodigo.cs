@@ -38,6 +38,7 @@ public class PuertaConCodigo : ObjetoSeleccionable
     private void OnMouseDown()
     {
         if (GestorDialogo.EnDialogo) return;
+        if (SonidoBloqueaSalida.SalidaBloqueada) return; // hay un sonido importante sonando: no se puede salir aún
 
         if (GestorEstadoJuego.singleton.YaOcurrio(idPuzzle))
         {

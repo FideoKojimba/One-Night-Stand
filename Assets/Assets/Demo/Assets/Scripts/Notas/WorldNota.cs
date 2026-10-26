@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Una nota tirada en el mundo. Es el equivalente a WorldItem, pero en
@@ -14,6 +15,17 @@ using UnityEngine;
 public class WorldNota : ObjetoSeleccionable
 {
     public Nota nota;
+
+    [Header("Diálogo antes de agarrar la nota (opcional)")]
+    [Tooltip("Si lo asignas, Blair habla PRIMERO y la nota se abre cuando el diálogo termina. " +
+             "Debe ser un objeto con DialogoTrigger (con 'Al Iniciar La Escena' desmarcado). " +
+             "Si el diálogo es 'Solo Una Vez' y ya se dijo, la nota se abre directo.")]
+    public DialogoTrigger dialogoAntesDeLeer;
+
+    [Header("Mini eventos")]
+    [Tooltip("Qué ocurre cuando el jugador CIERRA la nota (con la flecha) y esta termina de " +
+             "volver al suelo. Ej.: DialogoTrigger > MostrarDialogo para que Blair comente la nota.")]
+    public UnityEvent alCerrarNota;
 
     private SpriteRenderer sprite;
     private Collider2D colision;
@@ -31,6 +43,19 @@ public class WorldNota : ObjetoSeleccionable
     {
         if (GestorDialogo.EnDialogo) return;
 
+        if (dialogoAntesDeLeer != null)
+        {
+            // Primero habla Blair; al terminar, se abre la nota
+            dialogoAntesDeLeer.MostrarDialogo(AbrirNota);
+        }
+        else
+        {
+            AbrirNota();
+        }
+    }
+
+    private void AbrirNota()
+    {
         // Punto de la pantalla donde está la nota (de ahí sale la animación)
         Vector2 origen = Camera.main.WorldToScreenPoint(transform.position);
 
@@ -46,6 +71,8 @@ public class WorldNota : ObjetoSeleccionable
     {
         sprite.enabled = true;
         colision.enabled = true;
+
+        alCerrarNota.Invoke();
     }
 
     private void Ocultar()

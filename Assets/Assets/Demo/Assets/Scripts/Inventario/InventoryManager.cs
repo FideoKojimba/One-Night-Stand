@@ -22,8 +22,17 @@ public class InventoryManager : MonoBehaviour
     [Header("Prefab visual que se instancia dentro de cada slot")]
     public GameObject iconoItemPrefab;
 
+    [Header("Interfaz")]
+    [Tooltip("El objeto InventoryPanel (la barra con los slots). Se usa para " +
+             "mostrarlo u ocultarlo, por ejemplo en los menús.")]
+    public GameObject panelInventario;
+
     // Lista interna real de ítems (fuente de verdad del inventario)
     private List<Item> inventario = new List<Item>();
+
+    // Qué ítem ocupa cada slot. Permite encontrar y quitar un ítem por su
+    // nombre (DescartarItem) sin depender de los detalles internos del ícono.
+    private Dictionary<InventorySlot, Item> itemPorSlot = new Dictionary<InventorySlot, Item>();
 
     // Nombres de ítems que el jugador ya recogió ALGUNA VEZ, sin importar
     // si siguen en el inventario o ya se consumieron. Sirve para que los
@@ -44,6 +53,19 @@ public class InventoryManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Muestra u oculta SOLO la barra visual del inventario. Los ítems no
+    /// se pierden: siguen guardados en la lista interna y en sus slots,
+    /// simplemente no se ven (útil para menús, pausa o cinemáticas).
+    /// </summary>
+    public void MostrarInterfaz(bool visible)
+    {
+        if (panelInventario != null)
+        {
+            panelInventario.SetActive(visible);
+        }
+    }
+
+    /// <summary>
     /// Busca el primer slot libre y coloca el ítem ahí.
     /// Devuelve true si se pudo agregar, false si el inventario está lleno.
     /// </summary>
@@ -55,6 +77,7 @@ public class InventoryManager : MonoBehaviour
             {
                 InstanciarIcono(item, slot);
                 inventario.Add(item);
+                itemPorSlot[slot] = item;
                 nombresRecogidos.Add(item.nombre);
                 return true;
             }
@@ -81,6 +104,7 @@ public class InventoryManager : MonoBehaviour
     public void RemoverItem(Item item, InventorySlot slot)
     {
         inventario.Remove(item);
+        itemPorSlot.Remove(slot);
         slot.Liberar();
 
         if (item.prefab != null)
@@ -98,7 +122,49 @@ public class InventoryManager : MonoBehaviour
     public void ConsumirItem(Item item, InventorySlot slot)
     {
         inventario.Remove(item);
+        itemPorSlot.Remove(slot);
         slot.Liberar();
+    }
+
+    /// <summary>Indica si el jugador tiene ahora mismo un ítem con este nombre en el inventario.</summary>
+    public bool TieneItem(string nombreItem)
+    {
+        foreach (Item item in itemPorSlot.Values)
+        {
+            if (item.nombre == nombreItem) return true;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Quita del inventario, sin dejar rastro, el ítem con este nombre
+    /// (por ejemplo, un gadget que ya no sirve al terminar un puzzle).
+    /// Devuelve true si lo encontró y lo quitó, false si no lo tenía.
+    /// </summary>
+    public bool DescartarItem(string nombreItem)
+    {
+        InventorySlot slotEncontrado = null;
+
+        foreach (KeyValuePair<InventorySlot, Item> par in itemPorSlot)
+        {
+            if (par.Value.nombre == nombreItem)
+            {
+                slotEncontrado = par.Key;
+                break;
+            }
+        }
+
+        if (slotEncontrado == null) return false;
+
+        inventario.Remove(itemPorSlot[slotEncontrado]);
+        itemPorSlot.Remove(slotEncontrado);
+
+        if (!slotEncontrado.EstaVacio)
+        {
+            Destroy(slotEncontrado.IconoActual.gameObject);
+        }
+        slotEncontrado.Liberar();
+        return true;
     }
 
     /// <summary>
@@ -118,6 +184,7 @@ public class InventoryManager : MonoBehaviour
         }
 
         inventario.Clear();
+        itemPorSlot.Clear();
         nombresRecogidos.Clear();
     }
 

@@ -35,5 +35,44 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Assets/Demo/Assets/Escenas/FinDemo.unity
     guid: 247b4bc3a9cb9114c807d4a433c708f2
+  - enabled: 1
+    path: Assets/Assets/Demo/Assets/Escenas/MenuPrincipal.unity
+    guid: c448155a3463b494ea8d8eaeec40b130
+  - enabled: 1
+    path: Assets/Assets/Demo/Assets/Escenas/MaineCentral.unity
+    guid: ae859d199f90e024abfe4d2f56558a95
+  - enabled: 1
+    path: Assets/Assets/Demo/Assets/Escenas/Coffin.unity
+    guid: d641c2595425bf6458137ff8fea9f10e
+  - enabled: 1
+    path: Assets/Assets/Demo/Assets/Escenas/Museo1.unity
+    guid: 47f25c2f8582bdd43a3e67296f06322b
+  - enabled: 1
+    path: Assets/Assets/Demo/Assets/Escenas/Museo2.unity
+    guid: a135846ab7dcb554ab6a922d06af7c57
+  - enabled: 1
+    path: Assets/Assets/Demo/Assets/Escenas/Cementary.unity
+    guid: d90824336a2a6cf43b356448b56a18ba
+  - enabled: 1
+    path: Assets/Assets/Demo/Assets/Escenas/Camino.unity
+    guid: 7ab45810f424047409aab21d4bcc8dbc
+  - enabled: 1
+    path: Assets/Assets/Demo/Assets/Escenas/LyT.unity
+    guid: ec7bc87022102404aa46577256a69ef8
+  - enabled: 1
+    path: Assets/Assets/Demo/Assets/Escenas/Casa.unity
+    guid: 47ade19b9c7d0d84db0da928707b2089
+  - enabled: 1
+    path: Assets/Assets/Demo/Assets/Escenas/DentroCofre.unity
+    guid: fee585474df5bab459016c1887fee088
+  - enabled: 1
+    path: Assets/Assets/Demo/Assets/Escenas/Hueco.unity
+    guid: 34c1a2991aeb14a4aa54e9bcbbb6239a
+  - enabled: 1
+    path: "Assets/Assets/Demo/Assets/Escenas/Ba\xF1o.unity"
+    guid: 3d59d9bf65ec0334c84dcaca2c79045e
+  - enabled: 1
+    path: Assets/Assets/Demo/Assets/Escenas/Pasillo de la casa.unity
+    guid: 5b6df353ac1a6fd469f70b1fe0418fce
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

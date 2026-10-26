@@ -79,10 +79,21 @@ public class GestorDialogo : MonoBehaviour
     {
         // Solo cuenta cuando el panel ya está visible: así un clic
         // durante la breve espera inicial no se "guarda" por error.
-        if (EnDialogo && panelDialogo.activeSelf && Input.GetMouseButtonDown(0))
+        if (EnDialogo && !GestorPausa.EnPausa && panelDialogo.activeSelf && Input.GetMouseButtonDown(0))
         {
             avanzar = true;
         }
+    }
+
+    /// <summary>
+    /// Corta cualquier diálogo en curso y oculta el panel. Se usa al
+    /// abandonar la partida (volver al menú principal).
+    /// </summary>
+    public void Reiniciar()
+    {
+        StopAllCoroutines();
+        panelDialogo.SetActive(false);
+        EnDialogo = false;
     }
 
     /// <summary>
@@ -90,12 +101,13 @@ public class GestorDialogo : MonoBehaviour
     /// cualquier objeto (por ejemplo, DialogoTrigger), en cualquier
     /// escena, sin escribir una clase nueva por cada diálogo.
     /// </summary>
-    public void MostrarDialogo(Sprite personaje, LineaDialogo[] lineas)
+    /// <param name="alTerminar">(Opcional) Se avisa cuando el diálogo termina por completo.</param>
+    public void MostrarDialogo(Sprite personaje, LineaDialogo[] lineas, System.Action alTerminar = null)
     {
-        StartCoroutine(SecuenciaDeDialogo(personaje, lineas));
+        StartCoroutine(SecuenciaDeDialogo(personaje, lineas, alTerminar));
     }
 
-    private IEnumerator SecuenciaDeDialogo(Sprite personaje, LineaDialogo[] lineas)
+    private IEnumerator SecuenciaDeDialogo(Sprite personaje, LineaDialogo[] lineas, System.Action alTerminar)
     {
         // El juego ya queda pausado desde este instante, aunque el
         // panel todavía no se vea (durante la espera inicial).
@@ -125,6 +137,8 @@ public class GestorDialogo : MonoBehaviour
 
         panelDialogo.SetActive(false);
         EnDialogo = false;
+
+        alTerminar?.Invoke();
     }
 
     private IEnumerator TipearTexto(string texto)

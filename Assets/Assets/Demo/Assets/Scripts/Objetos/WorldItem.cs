@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Componente que va sobre un ítem físico en el mundo del juego.
@@ -14,6 +15,9 @@ using UnityEngine;
 public class WorldItem : ObjetoSeleccionable
 {
     public Item item;
+
+    [Tooltip("Qué ocurre justo cuando el jugador lo recoge (ej. TransicionConSonido > Iniciar()).")]
+    public UnityEvent alRecogerse;
 
     protected override void Awake()
     {
@@ -35,6 +39,7 @@ public class WorldItem : ObjetoSeleccionable
 
         if (agregado)
         {
+            alRecogerse.Invoke();
             Destroy(gameObject);
         }
     }

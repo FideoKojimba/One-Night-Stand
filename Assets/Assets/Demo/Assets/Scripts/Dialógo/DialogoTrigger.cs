@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Colocá esto en cualquier escena para disparar un diálogo. Por
@@ -31,6 +32,11 @@ public class DialogoTrigger : MonoBehaviour
              "Se usa para recordar si ya se mostró.")]
     public string idDialogo = "DialogoSinNombre";
 
+    [Header("Al terminar el diálogo")]
+    [Tooltip("Mini eventos que ocurren cuando el diálogo termina (por ejemplo, " +
+             "DisparadorDeContador > Iniciar() para arrancar la cuenta regresiva).")]
+    public UnityEvent alTerminarDialogo;
+
     private void Start()
     {
         if (alIniciarLaEscena)
@@ -39,18 +45,36 @@ public class DialogoTrigger : MonoBehaviour
         }
     }
 
+    /// <summary>Muestra el diálogo (versión para los mini eventos del Inspector).</summary>
     public void MostrarDialogo()
+    {
+        MostrarDialogo(null);
+    }
+
+    /// <summary>
+    /// Muestra el diálogo y, cuando termina, ejecuta además "alTerminarExtra"
+    /// (la usa, por ejemplo, WorldNota para abrir la nota DESPUÉS de que
+    /// Blair hable). Si el diálogo ya se mostró antes (Solo Una Vez),
+    /// no se repite, pero "alTerminarExtra" se ejecuta igual de inmediato,
+    /// para que lo que venía después no se quede trabado.
+    /// </summary>
+    public void MostrarDialogo(System.Action alTerminarExtra)
     {
         if (soloUnaVez)
         {
             if (GestorEstadoJuego.singleton.YaOcurrio(idDialogo))
             {
-                return; // Ya se mostró antes: no se repite
+                alTerminarExtra?.Invoke(); // Ya se mostró antes: no se repite
+                return;
             }
 
             GestorEstadoJuego.singleton.MarcarComoOcurrido(idDialogo);
         }
 
-        GestorDialogo.singleton.MostrarDialogo(personaje, lineas);
+        GestorDialogo.singleton.MostrarDialogo(personaje, lineas, () =>
+        {
+            alTerminarDialogo.Invoke();
+            alTerminarExtra?.Invoke();
+        });
     }
 }

@@ -38,6 +38,10 @@ public class GestorNotas : MonoBehaviour
     [Tooltip("Botón de la muesca (abajo a la izquierda) para volver a la página anterior")]
     [SerializeField] private GameObject botonAnterior;
 
+    [Header("Sonido")]
+    [Tooltip("Suena cada vez que el jugador avanza o retrocede una página")]
+    [SerializeField] private AudioClip sonidoCambioPagina;
+
     [Header("Animación")]
     [SerializeField] private float duracion = 0.4f;
     [Tooltip("Tamaño con el que la nota sale del suelo (0.15 = 15% de su tamaño final)")]
@@ -46,6 +50,7 @@ public class GestorNotas : MonoBehaviour
     // Lista de notas que el jugador ya abrió (base para un inventario de notas)
     public List<Nota> notasDescubiertas = new List<Nota>();
 
+    private AudioSource audioSource;
     private RectTransform rectNota;
     private RectTransform rectCanvas;
     private Nota notaActual;
@@ -61,6 +66,11 @@ public class GestorNotas : MonoBehaviour
             singleton = this;
             // No hace falta DontDestroyOnLoad aquí: este objeto es hijo de
             // "Sistemas", cuya raíz ya persiste entre escenas.
+
+            // Fuente de audio propia (se crea sola si el objeto no tiene una)
+            audioSource = GetComponent<AudioSource>();
+            if (audioSource == null) audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.playOnAwake = false;
 
             rectNota = imagenNota.rectTransform;
             rectCanvas = panelNotas.GetComponentInParent<Canvas>().GetComponent<RectTransform>();
@@ -110,6 +120,7 @@ public class GestorNotas : MonoBehaviour
         {
             paginaActual++;
             MostrarPagina();
+            ReproducirSonidoPagina();
         }
     }
 
@@ -122,6 +133,7 @@ public class GestorNotas : MonoBehaviour
         {
             paginaActual--;
             MostrarPagina();
+            ReproducirSonidoPagina();
         }
     }
 
@@ -134,6 +146,29 @@ public class GestorNotas : MonoBehaviour
         botonSiguiente.SetActive(false);
         botonAnterior.SetActive(false);
         StartCoroutine(Animar(false));
+    }
+
+    /// <summary>
+    /// Cierra la nota de golpe, sin animación. Se usa al abandonar la
+    /// partida (volver al menú principal) con una nota abierta.
+    /// </summary>
+    public void Reiniciar()
+    {
+        StopAllCoroutines();
+        ocupado = false;
+        notaActual = null;
+        alTerminarDeCerrar = null;
+        panelNotas.gameObject.SetActive(false);
+    }
+
+    // Solo se llama cuando la página REALMENTE cambió (no al estar en
+    // la primera o la última), así no suena sin motivo.
+    private void ReproducirSonidoPagina()
+    {
+        if (sonidoCambioPagina != null)
+        {
+            audioSource.PlayOneShot(sonidoCambioPagina);
+        }
     }
 
     private void MostrarPagina()
@@ -156,7 +191,7 @@ public class GestorNotas : MonoBehaviour
         float tiempo = 0f;
         while (tiempo < duracion)
         {
-            tiempo += Time.unscaledDeltaTime;
+            tiempo += Time.deltaTime; // se congela si el juego está en pausa
             float t = Mathf.SmoothStep(0f, 1f, tiempo / duracion);
             if (!abriendo) t = 1f - t; // al cerrar se recorre al revés
 

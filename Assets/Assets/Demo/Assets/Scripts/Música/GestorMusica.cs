@@ -23,6 +23,10 @@ public class GestorMusica : MonoBehaviour
 
     private AudioSource audioSource;
 
+    // Mientras sea true, la música de las escenas (MusicaDeEscena) se
+    // ignora: suena una canción "forzada" que interrumpe a todas las demás.
+    private bool musicaForzada;
+
     // Memoria: para cada pista, el segundo donde quedó al cambiar de música.
     private Dictionary<AudioClip, float> posicionesGuardadas = new Dictionary<AudioClip, float>();
 
@@ -54,6 +58,9 @@ public class GestorMusica : MonoBehaviour
     {
         if (nuevaMusica == null) return;
 
+        // Hay una canción forzada sonando: ninguna escena puede cambiarla
+        if (musicaForzada) return;
+
         // Ya está sonando: no se reinicia ni se corta.
         if (audioSource.clip == nuevaMusica && audioSource.isPlaying) return;
 
@@ -75,6 +82,34 @@ public class GestorMusica : MonoBehaviour
         audioSource.Play();
     }
 
+    /// <summary>
+    /// Interrumpe lo que esté sonando y pone esta canción, desde el
+    /// principio. Mientras esté forzada, las escenas NO pueden cambiar la
+    /// música (se ignoran sus MusicaDeEscena). Se libera con
+    /// LiberarMusicaForzada(). Se usa, por ejemplo, para la canción del
+    /// último minuto de la cuenta regresiva.
+    /// </summary>
+    public void ForzarMusica(AudioClip musica)
+    {
+        if (musica == null) return;
+
+        GuardarPosicionActual(); // la canción interrumpida recuerda dónde iba
+
+        musicaForzada = true;
+        audioSource.clip = musica;
+        audioSource.time = 0f;
+        audioSource.Play();
+    }
+
+    /// <summary>
+    /// Vuelve a permitir que las escenas cambien la música. La canción
+    /// forzada sigue sonando hasta que alguna escena pida otra.
+    /// </summary>
+    public void LiberarMusicaForzada()
+    {
+        musicaForzada = false;
+    }
+
     /// <summary>Guarda el segundo actual de la pista que está sonando.</summary>
     private void GuardarPosicionActual()
     {
@@ -91,6 +126,7 @@ public class GestorMusica : MonoBehaviour
     public void Reiniciar()
     {
         posicionesGuardadas.Clear();
+        musicaForzada = false;
         audioSource.Stop();
         audioSource.clip = null;
     }

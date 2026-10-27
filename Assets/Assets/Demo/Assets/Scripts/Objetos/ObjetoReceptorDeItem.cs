@@ -73,6 +73,7 @@ public class ObjetoReceptorDeItem : MonoBehaviour, IObjetoInteractivo
     private SpriteRenderer spriteRenderer;
     private AudioSource audioSource;
     private bool yaAceptado; // una vez aceptado el ítem, los clics ya no hacen nada
+    private bool bloqueandoSalida; // true mientras esta secuencia mantiene bloqueadas las salidas
 
     private void Awake()
     {
@@ -100,6 +101,7 @@ public class ObjetoReceptorDeItem : MonoBehaviour, IObjetoInteractivo
     private void OnMouseDown()
     {
         if (yaAceptado || GestorDialogo.EnDialogo) return;
+        if (InventoryManager.PunteroSobreInventario()) return; // clic sobre el inventario: no agarrar lo de atrás
 
         if (sonidoAlTocar != null)
         {
@@ -125,8 +127,30 @@ public class ObjetoReceptorDeItem : MonoBehaviour, IObjetoInteractivo
         if (yaAceptado) return false; // ya se aceptó antes: no se acepta dos veces
 
         yaAceptado = true;
+
+        // El ítem ya se consumió: hasta que la secuencia termine NO se puede salir
+        // de la escena. Si no, la escena se descargaría con la espera a medias y
+        // los mini eventos (sonido, trampilla...) nunca ocurrirían.
+        bloqueandoSalida = true;
+        SonidoBloqueaSalida.Bloquear();
+
         StartCoroutine(SecuenciaDeAceptacion());
         return true; // Aceptado: el ítem se consume
+    }
+
+    // Seguridad: si el objeto se destruye a mitad de la secuencia, no se deja
+    // la salida bloqueada para siempre.
+    private void OnDestroy()
+    {
+        LiberarSalida();
+    }
+
+    private void LiberarSalida()
+    {
+        if (!bloqueandoSalida) return;
+
+        bloqueandoSalida = false;
+        SonidoBloqueaSalida.Desbloquear();
     }
 
     private IEnumerator SecuenciaDeAceptacion()
@@ -144,6 +168,10 @@ public class ObjetoReceptorDeItem : MonoBehaviour, IObjetoInteractivo
         }
 
         alAceptar.Invoke();
+
+        // La secuencia terminó. Si alAceptar inició un sonido que bloquea la
+        // salida (SonidoBloqueaSalida), ese sonido mantiene su propio bloqueo.
+        LiberarSalida();
 
         // Solo cambia de escena si se configuró una
         if (!string.IsNullOrEmpty(escenaDestino))

@@ -34,6 +34,7 @@ public class WorldItem : ObjetoSeleccionable
     private void OnMouseDown()
     {
         if (GestorDialogo.EnDialogo) return;
+        if (InventoryManager.PunteroSobreInventario()) return; // clic sobre el inventario: no agarrar lo de atrás
 
         bool agregado = InventoryManager.singleton.AgregarItem(item);
 

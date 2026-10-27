@@ -894,6 +894,64 @@ MonoBehaviour:
   idRanura: RanuraCenArr
   nombreItemCorrecto: Liebre
   nombreItemInicial: 
+--- !u!1 &1448355956
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1448355958}
+  - component: {fileID: 1448355957}
+  m_Layer: 0
+  m_Name: DialogoCalavera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1448355957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448355956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ee31bdaf3aa4654aa471289ad5b38a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogoTrigger
+  personaje: {fileID: 0}
+  lineas:
+  - nombre: Blair
+    texto: "No, no. Algo est\xE1 mal."
+  - nombre: Blair
+    texto: Mhm...
+  - nombre: Blair
+    texto: '"Solo hay cuatro"...?'
+  alIniciarLaEscena: 0
+  soloUnaVez: 0
+  idDialogo: PistaCalavera
+  alTerminarDialogo:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!4 &1448355958
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448355956}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.68359, y: -0.45285, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1458458278
 GameObject:
   m_ObjectHideFlags: 0
@@ -964,6 +1022,9 @@ MonoBehaviour:
   sonidoColocar: {fileID: 8300000, guid: 6dfea84b4ab8d434c92c65697c8e314b, type: 3}
   sonidoCorrecto: {fileID: 8300000, guid: b8cc1a9b30fac5b44a66f24c8efa3ee3, type: 3}
   sonidoCofre: {fileID: 8300000, guid: a590a3a9c2e0d9745acc461f265ea932, type: 3}
+  itemsRequeridosEnInventario:
+  - Calavera
+  dialogoFaltaItem: {fileID: 1448355957}
   itemsADescartar:
   - Calavera
   alResolver:
@@ -1283,3 +1344,4 @@ SceneRoots:
   - {fileID: 1458458281}
   - {fileID: 1044971038}
   - {fileID: 1374075093}
+  - {fileID: 1448355958}

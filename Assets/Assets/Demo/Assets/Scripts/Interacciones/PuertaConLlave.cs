@@ -64,6 +64,7 @@ public class PuertaConLlave : MonoBehaviour, IObjetoInteractivo
     private void OnMouseDown()
     {
         if (GestorDialogo.EnDialogo) return;
+        if (InventoryManager.PunteroSobreInventario()) return; // clic sobre el inventario: no agarrar lo de atrás
 
         if (sonidoTrabada != null)
         {

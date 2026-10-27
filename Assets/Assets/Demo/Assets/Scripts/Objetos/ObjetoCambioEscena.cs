@@ -61,6 +61,7 @@ public class ObjetoCambioEscena : ObjetoSeleccionable
     private void OnMouseDown()
     {
         if (GestorDialogo.EnDialogo) return;
+        if (InventoryManager.PunteroSobreInventario()) return; // clic sobre el inventario: no agarrar lo de atrás
         if (SonidoBloqueaSalida.SalidaBloqueada) return; // hay un sonido importante sonando: no se puede salir aún
 
         // Si hace falta un evento y todavía no ocurrió, se muestra el diálogo en vez de pasar

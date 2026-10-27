@@ -14,6 +14,9 @@ using UnityEngine.Events;
 ///  - PuzzleDeRanuras: esta clase; crea las piezas, recuerda el estado,
 ///                     detecta la solución y lanza la secuencia final.
 ///
+/// Condición extra opcional: algunos ítems (la calavera) deben estar en el
+/// INVENTARIO, no sobre el tablero, para que el puzzle cuente como resuelto.
+///
 /// Memoria entre escenas: cada vez que algo cambia, se guarda en
 /// GestorEstadoJuego qué gadget hay en cada ranura. Al volver a la
 /// escena, todo queda exactamente como se dejó.
@@ -52,6 +55,16 @@ public class PuzzleDeRanuras : MonoBehaviour
     [SerializeField] private AudioClip sonidoColocar;
     [SerializeField] private AudioClip sonidoCorrecto;
     [SerializeField] private AudioClip sonidoCofre;
+
+    [Header("Condición extra")]
+    [Tooltip("Nombres de ítems que el jugador debe tener EN EL INVENTARIO (no en el tablero) " +
+             "para que el puzzle cuente como resuelto (ej. 'Calavera'). Si el ítem está " +
+             "puesto en una ranura, no cuenta: hay que sacarlo del tablero.")]
+    [SerializeField] private string[] itemsRequeridosEnInventario;
+    [Tooltip("(Opcional) Diálogo de Blair cuando el orden es correcto pero falta la condición " +
+             "extra (ej. la calavera sigue en el tablero). Debe tener 'Al Iniciar La Escena' " +
+             "desmarcado y 'Solo Una Vez' desmarcado, para que se repita cada vez que ocurra.")]
+    [SerializeField] private DialogoTrigger dialogoFaltaItem;
 
     [Header("Al resolverse")]
     [Tooltip("Nombres de ítems que se tiran del inventario al resolver (ej. 'Calavera')")]
@@ -197,13 +210,36 @@ public class PuzzleDeRanuras : MonoBehaviour
     {
         GuardarEstado();
 
-        if (!Resuelto && EstaResuelto())
+        if (Resuelto || !OrdenCorrecto()) return;
+
+        // Mensaje de depuración (puedes borrarlo cuando todo funcione)
+        Debug.Log("[Puzzle] Orden correcto. Ítems requeridos en inventario: " +
+                  itemsRequeridosEnInventario.Length + " | ¿Los tiene?: " + ItemsEnInventario());
+
+        if (ItemsEnInventario())
         {
             StartCoroutine(SecuenciaDeResolucion());
         }
+        else if (dialogoFaltaItem != null && !GestorDialogo.EnDialogo)
+        {
+            // El orden es correcto, pero falta la condición extra (la calavera
+            // sigue en el tablero): Blair lo comenta.
+            dialogoFaltaItem.MostrarDialogo();
+        }
     }
 
-    private bool EstaResuelto()
+    /// <summary>True si TODOS los ítems requeridos están en el inventario.</summary>
+    private bool ItemsEnInventario()
+    {
+        foreach (string nombre in itemsRequeridosEnInventario)
+        {
+            if (!InventoryManager.singleton.TieneItem(nombre)) return false;
+        }
+        return true;
+    }
+
+    /// <summary>True si las ranuras de la solución tienen su gadget correcto.</summary>
+    private bool OrdenCorrecto()
     {
         bool hayRanurasRequeridas = false;
 

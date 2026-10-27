@@ -58,6 +58,7 @@ public class GestorNotas : MonoBehaviour
     private Vector2 origen;          // posición local (en el canvas) desde donde sale
     private Action alTerminarDeCerrar;
     private bool ocupado;            // true mientras anima: ignora clics
+    private bool cierreBloqueado;    // true: la flecha de cerrar no aparece ni funciona
 
     private void Awake()
     {
@@ -137,10 +138,27 @@ public class GestorNotas : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Impide (o vuelve a permitir) que el jugador cierre la nota: con el cierre
+    /// bloqueado la flecha de arriba se oculta y no responde. Se puede seguir
+    /// pasando de página. Se usa, por ejemplo, para que el jugador no pueda
+    /// escapar de una nota mientras ocurre un susto (ver Screamer).
+    /// </summary>
+    public void BloquearCierre(bool bloquear)
+    {
+        cierreBloqueado = bloquear;
+
+        // Si la nota ya está abierta y quieta, se actualiza la flecha al instante
+        if (notaActual != null && !ocupado)
+        {
+            botonCerrar.SetActive(!bloquear);
+        }
+    }
+
     /// <summary>Botón de la flecha: guarda la nota y la devuelve al suelo.</summary>
     public void Cerrar()
     {
-        if (ocupado || notaActual == null) return;
+        if (ocupado || notaActual == null || cierreBloqueado) return;
 
         botonCerrar.SetActive(false);
         botonSiguiente.SetActive(false);
@@ -158,6 +176,7 @@ public class GestorNotas : MonoBehaviour
         ocupado = false;
         notaActual = null;
         alTerminarDeCerrar = null;
+        cierreBloqueado = false;
         panelNotas.gameObject.SetActive(false);
     }
 
@@ -209,7 +228,7 @@ public class GestorNotas : MonoBehaviour
             rectNota.anchoredPosition = Vector2.zero;
             rectNota.localScale = Vector3.one;
             panelNotas.alpha = 1f;
-            botonCerrar.SetActive(true);
+            botonCerrar.SetActive(!cierreBloqueado);
             MostrarPagina();
         }
         else

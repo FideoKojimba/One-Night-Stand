@@ -84,6 +84,21 @@ public class GestorMuerte : MonoBehaviour
         StartCoroutine(SecuenciaDeMuerte());
     }
 
+    /// <summary>
+    /// Reinicia toda la partida (cuenta regresiva, inventario, eventos) y vuelve
+    /// al menú principal. La usa la secuencia de muerte y también el Screamer,
+    /// para que "cómo se vuelve al menú" esté escrito en un solo lugar.
+    /// </summary>
+    public void ReiniciarPartidaYVolverAlMenu()
+    {
+        if (ContadorRegresivo.singleton != null) ContadorRegresivo.singleton.Reiniciar();
+        InventoryManager.singleton.Reiniciar();
+        GestorEstadoJuego.singleton.Reiniciar();
+        GestorDialogo.EnDialogo = false;
+
+        GestorTransicionEscena.singleton.IrAEscena(escenaMenu, Vector3.zero, false);
+    }
+
     private IEnumerator SecuenciaDeMuerte()
     {
         EnMuerte = true;
@@ -130,12 +145,7 @@ public class GestorMuerte : MonoBehaviour
         yield return new WaitWhile(() => audioSource.isPlaying);
 
         // --- 5. Se reinicia la partida y se vuelve al menú principal ---
-        if (ContadorRegresivo.singleton != null) ContadorRegresivo.singleton.Reiniciar();
-        InventoryManager.singleton.Reiniciar();
-        GestorEstadoJuego.singleton.Reiniciar();
-        GestorDialogo.EnDialogo = false;
-
-        GestorTransicionEscena.singleton.IrAEscena(escenaMenu, Vector3.zero, false);
+        ReiniciarPartidaYVolverAlMenu();
 
         // Se espera a que el fundido del gestor de transición tape todo
         // (y la escena cambie) antes de apagar este panel.

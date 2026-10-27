@@ -599,6 +599,7 @@ GameObject:
   - component: {fileID: 479489718}
   - component: {fileID: 479489720}
   - component: {fileID: 479489721}
+  - component: {fileID: 479489722}
   m_Layer: 0
   m_Name: Puerta Casa_CL
   m_TagString: Untagged
@@ -726,10 +727,34 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  idEvento: 
+  idEvento: PuertaCasaAbierta
   alVolverConEventoCompletado:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 479489717}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1337553659}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   escenaDestino: 
   usarEfectoCaminado: 0
 --- !u!61 &479489721
@@ -778,6 +803,20 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.8, y: 3.49}
   m_EdgeRadius: 0
+--- !u!114 &479489722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 479489717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e06f4671ce77e304db1d4998a9df8ea8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjetoDecorativoInteractivo
+  multiplicadorEscala: 1.1
+  duracionAnimacion: 0.1
 --- !u!1 &685485372
 GameObject:
   m_ObjectHideFlags: 0

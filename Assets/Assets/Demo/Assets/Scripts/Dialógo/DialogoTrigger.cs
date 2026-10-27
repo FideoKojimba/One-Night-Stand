@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -22,6 +23,10 @@ public class DialogoTrigger : MonoBehaviour
 
     [Tooltip("Si está tildado, el diálogo arranca solo apenas empieza la escena")]
     public bool alIniciarLaEscena = true;
+
+    [Tooltip("Segundos que espera ANTES de mostrar el diálogo (ej. 1 para 'esperamos un segundo' " +
+             "en una cinemática). 0 = sin espera extra.")]
+    public float esperaAntesDeMostrar = 0f;
 
     [Header("Repetición")]
     [Tooltip("Si está tildado, este diálogo se muestra una sola vez en todo el juego, " +
@@ -71,6 +76,25 @@ public class DialogoTrigger : MonoBehaviour
             GestorEstadoJuego.singleton.MarcarComoOcurrido(idDialogo);
         }
 
+        if (esperaAntesDeMostrar > 0f)
+        {
+            StartCoroutine(EsperarYMostrar(alTerminarExtra));
+        }
+        else
+        {
+            LanzarDialogo(alTerminarExtra);
+        }
+    }
+
+    // Espera (en tiempo real, aunque se pause) y recién entonces muestra el diálogo
+    private IEnumerator EsperarYMostrar(System.Action alTerminarExtra)
+    {
+        yield return new WaitForSecondsRealtime(esperaAntesDeMostrar);
+        LanzarDialogo(alTerminarExtra);
+    }
+
+    private void LanzarDialogo(System.Action alTerminarExtra)
+    {
         GestorDialogo.singleton.MostrarDialogo(personaje, lineas, () =>
         {
             alTerminarDialogo.Invoke();

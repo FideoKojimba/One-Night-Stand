@@ -153,6 +153,7 @@ MonoBehaviour:
   - nombre: Blair
     texto: "Escuche el sonido de algo moviend\xF3se..."
   alIniciarLaEscena: 0
+  esperaAntesDeMostrar: 0
   soloUnaVez: 1
   idDialogo: DialogoTrampilla
   alTerminarDialogo:
@@ -484,6 +485,9 @@ MonoBehaviour:
   duracionAnimacion: 0.1
   nombreEscena: Armario
   usarEfectoCaminado: 1
+  idEventoRequerido: 
+  sonidoBloqueado: {fileID: 0}
+  dialogoSiEstaBloqueado: {fileID: 0}
 --- !u!114 &197170535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -638,6 +642,9 @@ MonoBehaviour:
   duracionAnimacion: 0.1
   nombreEscena: RoomBed
   usarEfectoCaminado: 1
+  idEventoRequerido: 
+  sonidoBloqueado: {fileID: 0}
+  dialogoSiEstaBloqueado: {fileID: 0}
 --- !u!212 &719164767
 SpriteRenderer:
   serializedVersion: 3
@@ -915,6 +922,9 @@ MonoBehaviour:
   duracionAnimacion: 0.1
   nombreEscena: MaineCentral
   usarEfectoCaminado: 1
+  idEventoRequerido: 
+  sonidoBloqueado: {fileID: 0}
+  dialogoSiEstaBloqueado: {fileID: 0}
 --- !u!1 &1440326677
 GameObject:
   m_ObjectHideFlags: 0
@@ -954,11 +964,12 @@ MonoBehaviour:
       El hospital deber\xEDa estar a la izquierda. "
   - nombre: Victor
     texto: "Ah, y m\xE1s vale que te des prisa, ser\xE1 mejor que hagas algo respecto
-      a ese sangrado; yo calculo que tienes unos 2 minutos antes de que sea demasiado
-      tarde."
+      a ese sangrado; yo calculo que tienes un poco m\xE1s de un minuto antes de
+      que sea demasiado tarde."
   - nombre: Victor
     texto: "\xA1Apres\xFArate! Je je je..."
   alIniciarLaEscena: 1
+  esperaAntesDeMostrar: 0
   soloUnaVez: 1
   idDialogo: DialogoInicial
   alTerminarDialogo:
@@ -1027,6 +1038,9 @@ MonoBehaviour:
   duracionAnimacion: 0.1
   nombreEscena: Pasillo del hospital
   usarEfectoCaminado: 1
+  idEventoRequerido: 
+  sonidoBloqueado: {fileID: 0}
+  dialogoSiEstaBloqueado: {fileID: 0}
 --- !u!61 &1813804056
 BoxCollider2D:
   m_ObjectHideFlags: 0

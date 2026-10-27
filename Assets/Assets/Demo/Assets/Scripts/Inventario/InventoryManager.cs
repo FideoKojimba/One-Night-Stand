@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// Único punto de control del inventario (patrón Singleton).
@@ -69,6 +70,32 @@ public class InventoryManager : MonoBehaviour
     /// Busca el primer slot libre y coloca el ítem ahí.
     /// Devuelve true si se pudo agregar, false si el inventario está lleno.
     /// </summary>
+    /// <summary>
+    /// True si el puntero del mouse está justo encima del inventario (un slot o un
+    /// ícono). Los objetos del mundo lo consultan en su OnMouseDown: OnMouseDown
+    /// ignora la interfaz y "atraviesa" el inventario, así que sin esta revisión
+    /// un clic sobre un ícono también agarraba el objeto que hubiera detrás.
+    /// </summary>
+    public static bool PunteroSobreInventario()
+    {
+        if (singleton == null || singleton.panelInventario == null) return false;
+        if (!singleton.panelInventario.activeInHierarchy || EventSystem.current == null) return false;
+
+        PointerEventData datos = new PointerEventData(EventSystem.current)
+        {
+            position = Input.mousePosition
+        };
+        List<RaycastResult> resultados = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(datos, resultados);
+
+        Transform panel = singleton.panelInventario.transform;
+        foreach (RaycastResult r in resultados)
+        {
+            if (r.gameObject.transform.IsChildOf(panel)) return true;
+        }
+        return false;
+    }
+
     public bool AgregarItem(Item item)
     {
         foreach (InventorySlot slot in slots)

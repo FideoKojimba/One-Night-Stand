@@ -2118,10 +2118,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1cf16c7faedc1e4dafaf0928798a8da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ContadorRegresivo
-  duracionSegundos: 120
+  duracionSegundos: 75
   textoContador: {fileID: 8413767091837616875}
   musicaUltimoMinuto: {fileID: 8300000, guid: 8fb96a017436cce43a897d18e30a9e11, type: 3}
-  segundosParaMusica: 60
+  segundosParaMusica: 45
 --- !u!1 &4207326539174319242
 GameObject:
   m_ObjectHideFlags: 0

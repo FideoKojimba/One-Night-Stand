@@ -23,6 +23,10 @@ public class EfectoParallax : MonoBehaviour
     [Range(0f, 1f)]
     public float factorParallax = 0.5f;
 
+    [Tooltip("Marcado: el objeto solo reacciona cuando la cámara se mueve a los LADOS. " +
+             "Si el jugador mira hacia arriba o abajo, el objeto no se mueve.")]
+    [SerializeField] private bool soloHorizontal = false;
+
     private Transform camara;
     private Vector3 posicionCamaraAnterior;
 
@@ -37,6 +41,7 @@ public class EfectoParallax : MonoBehaviour
     private void LateUpdate()
     {
         Vector3 movimientoCamara = camara.position - posicionCamaraAnterior;
+        if (soloHorizontal) movimientoCamara.y = 0f; // ignora mirar arriba o abajo
         transform.position += movimientoCamara * factorParallax;
         posicionCamaraAnterior = camara.position;
     }

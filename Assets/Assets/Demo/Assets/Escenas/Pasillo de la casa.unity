@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 48999089}
   - component: {fileID: 48999091}
   - component: {fileID: 48999092}
+  - component: {fileID: 48999093}
   m_Layer: 0
   m_Name: PuertaPasilloCasa_0
   m_TagString: Untagged
@@ -225,7 +226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3843a464393d34b4a8068d86ce8dacb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjetoReceptorDeItem
-  nombreItemRequerido: LlaveD
+  nombreItemRequerido: LlaveP
   spriteAlAceptar: {fileID: 0}
   tiempoDeEspera: 1.5
   sonidoAlTocar: {fileID: 8300000, guid: 383632c909a541242b5f1ec236479786, type: 3}
@@ -310,6 +311,20 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.86, y: 1.64}
   m_EdgeRadius: 0
+--- !u!114 &48999093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 48999088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e06f4671ce77e304db1d4998a9df8ea8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjetoDecorativoInteractivo
+  multiplicadorEscala: 1.1
+  duracionAnimacion: 0.1
 --- !u!1 &108437003
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,6 +533,7 @@ MonoBehaviour:
   - nombre: Blair
     texto: ...
   alIniciarLaEscena: 0
+  esperaAntesDeMostrar: 0
   soloUnaVez: 0
   idDialogo: DialogoSinNombre
   alTerminarDialogo:
@@ -827,6 +843,7 @@ MonoBehaviour:
   - nombre: Blair
     texto: Tengo que entrar.
   alIniciarLaEscena: 0
+  esperaAntesDeMostrar: 0
   soloUnaVez: 0
   idDialogo: DialogoEntrarJardin
   alTerminarDialogo:
@@ -839,6 +856,101 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 433516343}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.68359, y: -0.45285, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &705138910
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 705138912}
+  - component: {fileID: 705138911}
+  m_Layer: 0
+  m_Name: MarcadorBisturi
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &705138911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705138910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 928a5b4f26e96444e89b0e928df99cec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MarcadorDeEvento
+  idEvento: BisturiRecogido
+--- !u!4 &705138912
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705138910}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.68359, y: -0.45285, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1178620502
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1178620504}
+  - component: {fileID: 1178620503}
+  m_Layer: 0
+  m_Name: ControlBisturi
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1178620503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1178620502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f03cd787e1f4f0f4abd241c8b2f80c57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MostrarSiOcurrioEvento
+  objetoAControlar: {fileID: 1784111630}
+  idEvento: Culpa
+  apareceAlOcurrir: 1
+  alEntrarConEventoOcurrido:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!4 &1178620504
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1178620502}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.68359, y: -0.45285, z: 0}
@@ -1164,12 +1276,24 @@ MonoBehaviour:
   multiplicadorEscala: 1.1
   duracionAnimacion: 0.1
   item:
-    nombre: 
-    icono: {fileID: 0}
+    nombre: Bisturi
+    icono: {fileID: 931804740482985889, guid: 1abc903249418f448b2637db99ceb0cf, type: 3}
     prefab: {fileID: 0}
   alRecogerse:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 705138911}
+        m_TargetAssemblyTypeName: MarcadorDeEvento, Assembly-CSharp
+        m_MethodName: Marcar
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!61 &1784111632
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1490,11 +1614,36 @@ MonoBehaviour:
   - nombre: Blair
     texto: "Algo cay\xF3 despu\xE9s de recoger la nota."
   alIniciarLaEscena: 0
+  esperaAntesDeMostrar: 0
   soloUnaVez: 1
   idDialogo: Culpa
   alTerminarDialogo:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1339710582}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1784111630}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!4 &1993628489
 Transform:
   m_ObjectHideFlags: 0
@@ -1525,3 +1674,5 @@ SceneRoots:
   - {fileID: 1784111634}
   - {fileID: 1339710583}
   - {fileID: 1993628489}
+  - {fileID: 1178620504}
+  - {fileID: 705138912}

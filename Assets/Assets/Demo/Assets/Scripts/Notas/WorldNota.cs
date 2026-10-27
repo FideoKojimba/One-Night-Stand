@@ -23,6 +23,10 @@ public class WorldNota : ObjetoSeleccionable
     public DialogoTrigger dialogoAntesDeLeer;
 
     [Header("Mini eventos")]
+    [Tooltip("Qué ocurre justo cuando la nota SE ABRE (al recogerla). Ej.: un sonido, " +
+             "Screamer > Iniciar() para un susto mientras la lee.")]
+    public UnityEvent alAbrirNota;
+
     [Tooltip("Qué ocurre cuando el jugador CIERRA la nota (con la flecha) y esta termina de " +
              "volver al suelo. Ej.: DialogoTrigger > MostrarDialogo para que Blair comente la nota.")]
     public UnityEvent alCerrarNota;
@@ -42,6 +46,7 @@ public class WorldNota : ObjetoSeleccionable
     private void OnMouseDown()
     {
         if (GestorDialogo.EnDialogo) return;
+        if (InventoryManager.PunteroSobreInventario()) return; // clic sobre el inventario: no agarrar lo de atrás
 
         if (dialogoAntesDeLeer != null)
         {
@@ -64,6 +69,8 @@ public class WorldNota : ObjetoSeleccionable
         transform.localScale = escalaInicial; // evita quedar agrandada por el hover
 
         GestorNotas.singleton.Abrir(nota, origen, Mostrar);
+
+        alAbrirNota.Invoke();
     }
 
     // Se llama cuando la nota terminó de volver al suelo

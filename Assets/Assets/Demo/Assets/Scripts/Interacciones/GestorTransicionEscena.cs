@@ -93,12 +93,26 @@ public class GestorTransicionEscena : MonoBehaviour
     /// se usa "duracionFundido". Sirve para que el fundido dure justo lo
     /// que dura un sonido (ver TransicionConSonido).
     /// </param>
-    public void IrAEscena(string nombreEscena, Vector3 puntoDestino, bool usarEfectoCaminado = true, float duracionFundidoSalida = -1f)
+    /// <param name="pausaEnNegro">
+    /// (Opcional) Segundos que se espera con la pantalla YA en negro, antes de
+    /// cargar la escena nueva. Sirve para que un sonido suene "en la oscuridad"
+    /// (ver TransicionConSonido > Sonar En Negro).
+    /// </param>
+    /// <param name="alEstarEnNegro">
+    /// (Opcional) Se ejecuta justo cuando la pantalla termina de ponerse negra
+    /// (por ejemplo, para empezar ese sonido).
+    /// </param>
+    public void IrAEscena(string nombreEscena, Vector3 puntoDestino, bool usarEfectoCaminado = true,
+                          float duracionFundidoSalida = -1f, float pausaEnNegro = 0f,
+                          System.Action alEstarEnNegro = null)
     {
-        StartCoroutine(SecuenciaDeTransicion(nombreEscena, puntoDestino, usarEfectoCaminado, duracionFundidoSalida));
+        StartCoroutine(SecuenciaDeTransicion(nombreEscena, puntoDestino, usarEfectoCaminado,
+                                             duracionFundidoSalida, pausaEnNegro, alEstarEnNegro));
     }
 
-    private IEnumerator SecuenciaDeTransicion(string nombreEscena, Vector3 puntoDestino, bool usarEfectoCaminado, float duracionFundidoSalida)
+    private IEnumerator SecuenciaDeTransicion(string nombreEscena, Vector3 puntoDestino, bool usarEfectoCaminado,
+                                              float duracionFundidoSalida, float pausaEnNegro,
+                                              System.Action alEstarEnNegro)
     {
         // Mientras la escena se está yendo, nada puede recibir clics (si no, con un
         // fundido largo el jugador podría disparar otra transición encima).
@@ -112,6 +126,14 @@ public class GestorTransicionEscena : MonoBehaviour
 
         float duracionSalida = duracionFundidoSalida > 0f ? duracionFundidoSalida : duracionFundido;
         yield return StartCoroutine(Fundido(0f, 1f, duracionSalida));
+
+        // Pantalla totalmente negra: aquí puede sonar algo antes de cambiar de escena
+        alEstarEnNegro?.Invoke();
+        if (pausaEnNegro > 0f)
+        {
+            yield return new WaitForSecondsRealtime(pausaEnNegro);
+        }
+
         SceneManager.LoadScene(nombreEscena);
 
         // Se desbloquea ANTES de que la escena nueva ejecute su Start, para no

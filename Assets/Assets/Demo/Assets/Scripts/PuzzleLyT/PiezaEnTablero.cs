@@ -52,6 +52,7 @@ public class PiezaEnTablero : ObjetoSeleccionable
     private void OnMouseDown()
     {
         if (bloqueada || GestorDialogo.EnDialogo) return;
+        if (InventoryManager.PunteroSobreInventario()) return; // clic sobre el inventario: no agarrar lo de atrás
 
         presionada = true;
         arrastrando = false;

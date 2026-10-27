@@ -21,8 +21,33 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class SonidoBloqueaSalida : MonoBehaviour
 {
-    /// <summary>True mientras algún sonido de este tipo está sonando.</summary>
-    public static bool SalidaBloqueada { get; private set; }
+    // Contador de "bloqueos" activos. Es un contador (y no un simple true/false)
+    // porque varias cosas pueden bloquear la salida a la vez (un sonido, la
+    // secuencia de un ObjetoReceptorDeItem...) y la salida solo se libera
+    // cuando TODAS terminaron.
+    private static int bloqueosActivos;
+
+    /// <summary>True mientras algo importante está ocurriendo y no se puede salir.</summary>
+    public static bool SalidaBloqueada => bloqueosActivos > 0;
+
+    /// <summary>Pide bloquear las salidas. Cada Bloquear() debe tener su Desbloquear().</summary>
+    public static void Bloquear()
+    {
+        bloqueosActivos++;
+    }
+
+    /// <summary>Libera un bloqueo pedido con Bloquear().</summary>
+    public static void Desbloquear()
+    {
+        if (bloqueosActivos > 0) bloqueosActivos--;
+    }
+
+    // Con "Reload Domain" desactivado los estáticos sobreviven entre partidas de prueba
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ReiniciarEstadoEstatico()
+    {
+        bloqueosActivos = 0;
+    }
 
     [Tooltip("El sonido que se reproduce")]
     [SerializeField] private AudioClip sonido;
@@ -50,7 +75,7 @@ public class SonidoBloqueaSalida : MonoBehaviour
     private IEnumerator SonarYBloquear()
     {
         bloqueando = true;
-        SalidaBloqueada = true;
+        Bloquear();
 
         audioSource.PlayOneShot(sonido, volumen);
 
@@ -73,6 +98,6 @@ public class SonidoBloqueaSalida : MonoBehaviour
         if (!bloqueando) return;
 
         bloqueando = false;
-        SalidaBloqueada = false;
+        Desbloquear();
     }
 }

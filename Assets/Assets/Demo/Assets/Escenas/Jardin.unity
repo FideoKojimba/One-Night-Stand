@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 303836497}
   - component: {fileID: 303836496}
   - component: {fileID: 303836495}
+  - component: {fileID: 303836499}
   m_Layer: 5
   m_Name: CanvasScreamer
   m_TagString: Untagged
@@ -215,6 +216,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1132414395}
+  - {fileID: 1405347554}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -222,6 +224,28 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &303836499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 303836494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e90fd5d2dc035649b1679fed9037f4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EfectoScreamerVisual
+  imagen: {fileID: 1132414395}
+  destelloBlanco: {fileID: 1405347552}
+  duracionEntrada: 0.15
+  escalaMinima: 1
+  escalaMaxima: 1.5
+  frecuenciaInicial: 6
+  frecuenciaFinal: 28
+  segundosParaAcelerar: 1.5
+  destellosPorSegundo: 8
+  intensidadDestello: 1
 --- !u!1 &376710196
 GameObject:
   m_ObjectHideFlags: 0
@@ -451,10 +475,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cb584811126e4c4797b409fce36f7ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Screamer
-  sonidoPrevio: {fileID: 8300000, guid: ebf5db902f5f60843b11f59d78c04ef0, type: 3}
+  murmullos: {fileID: 8300000, guid: ebf5db902f5f60843b11f59d78c04ef0, type: 3}
+  volumenMurmullos: 0.6
   silenciarMusicaAlEmpezar: 1
   panelScreamer: {fileID: 303836494}
+  efectoVisual: {fileID: 303836499}
   sonidoScreamer: {fileID: 8300000, guid: cf127f20b1c640f46a0feebef3079198, type: 3}
+  volumenScreamer: 1
   esperaFinal: 0.5
 --- !u!82 &892456356
 AudioSource:
@@ -741,6 +768,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1132414394}
   m_CullTransparentMesh: 1
+--- !u!1 &1405347551
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1405347554}
+  - component: {fileID: 1405347553}
+  - component: {fileID: 1405347552}
+  m_Layer: 5
+  m_Name: Blanco
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1405347552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1405347551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1405347553
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1405347551}
+  m_CullTransparentMesh: 1
+--- !u!224 &1405347554
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1405347551}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 303836498}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1420601025
 GameObject:
   m_ObjectHideFlags: 0
@@ -784,7 +886,22 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 892456355}
         m_TargetAssemblyTypeName: Screamer, Assembly-CSharp
-        m_MethodName: Iniciar
+        m_MethodName: EmpezarMurmullos
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  alPulsarCerrar:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 892456355}
+        m_TargetAssemblyTypeName: Screamer, Assembly-CSharp
+        m_MethodName: Asustar
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -27,6 +27,10 @@ public class WorldNota : ObjetoSeleccionable
              "Screamer > Iniciar() para un susto mientras la lee.")]
     public UnityEvent alAbrirNota;
 
+    [Tooltip("Qué ocurre en el INSTANTE en que el jugador pulsa la flecha para cerrar la nota " +
+             "(antes de la animación de cierre). Ej.: Screamer > Asustar().")]
+    public UnityEvent alPulsarCerrar;
+
     [Tooltip("Qué ocurre cuando el jugador CIERRA la nota (con la flecha) y esta termina de " +
              "volver al suelo. Ej.: DialogoTrigger > MostrarDialogo para que Blair comente la nota.")]
     public UnityEvent alCerrarNota;
@@ -68,7 +72,7 @@ public class WorldNota : ObjetoSeleccionable
         Ocultar();
         transform.localScale = escalaInicial; // evita quedar agrandada por el hover
 
-        GestorNotas.singleton.Abrir(nota, origen, Mostrar);
+        GestorNotas.singleton.Abrir(nota, origen, Mostrar, alPulsarCerrar.Invoke);
 
         alAbrirNota.Invoke();
     }

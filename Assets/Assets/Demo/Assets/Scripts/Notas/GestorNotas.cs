@@ -57,6 +57,7 @@ public class GestorNotas : MonoBehaviour
     private int paginaActual;
     private Vector2 origen;          // posición local (en el canvas) desde donde sale
     private Action alTerminarDeCerrar;
+    private Action alEmpezarACerrar;  // se avisa en el instante en que el jugador pulsa la flecha de cerrar
     private bool ocupado;            // true mientras anima: ignora clics
     private bool cierreBloqueado;    // true: la flecha de cerrar no aparece ni funciona
 
@@ -86,15 +87,17 @@ public class GestorNotas : MonoBehaviour
     /// <summary>
     /// Abre una nota. origenPantalla = punto de la pantalla desde donde
     /// sale y adonde vuelve. alTerminarDeCerrar (opcional) se avisa cuando
-    /// la nota ya volvió a su sitio.
+    /// la nota ya volvió a su sitio. alEmpezarACerrar (opcional) se avisa en
+    /// el instante en que el jugador pulsa la flecha de cerrar (antes de la animación).
     /// </summary>
-    public void Abrir(Nota nota, Vector2 origenPantalla, Action alTerminarDeCerrar = null)
+    public void Abrir(Nota nota, Vector2 origenPantalla, Action alTerminarDeCerrar = null, Action alEmpezarACerrar = null)
     {
         if (ocupado || nota == null || nota.paginas == null || nota.paginas.Length == 0) return;
 
         notaActual = nota;
         paginaActual = 0;
         this.alTerminarDeCerrar = alTerminarDeCerrar;
+        this.alEmpezarACerrar = alEmpezarACerrar;
 
         if (!notasDescubiertas.Contains(nota)) notasDescubiertas.Add(nota);
 
@@ -164,6 +167,10 @@ public class GestorNotas : MonoBehaviour
         botonSiguiente.SetActive(false);
         botonAnterior.SetActive(false);
         StartCoroutine(Animar(false));
+
+        // Al final, para que quien reaccione (ej. un susto que cierra la nota de golpe
+        // con Reiniciar) pueda frenar la animación que acaba de empezar.
+        alEmpezarACerrar?.Invoke();
     }
 
     /// <summary>
@@ -176,6 +183,7 @@ public class GestorNotas : MonoBehaviour
         ocupado = false;
         notaActual = null;
         alTerminarDeCerrar = null;
+        alEmpezarACerrar = null;
         cierreBloqueado = false;
         panelNotas.gameObject.SetActive(false);
     }

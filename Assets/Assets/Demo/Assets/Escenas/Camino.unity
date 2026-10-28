@@ -1280,7 +1280,7 @@ MonoBehaviour:
   duracionAnimacion: 0.1
   nombreEscena: "Ba\xF1o"
   usarEfectoCaminado: 1
-  idEventoRequerido: Culpa
+  idEventoRequerido: BisturiRecogido
   sonidoBloqueado: {fileID: 0}
   dialogoSiEstaBloqueado: {fileID: 468144740}
 --- !u!212 &1999417291
